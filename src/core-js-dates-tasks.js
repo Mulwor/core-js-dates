@@ -170,8 +170,17 @@ function formatDate(date) {
  * 12, 2023 => 10
  * 1, 2024 => 8
  */
-function getCountWeekendsInMonth(/* month, year */) {
-  throw new Error('Not implemented');
+function getCountWeekendsInMonth(month, year) {
+  let result = 0;
+  const day = new Date(year, month, 0).getDate();
+
+  for (let i = 1; i <= day; i += 1) {
+    const getDay = new Date(year, month - 1, i).getDay();
+
+    if (getDay === 0 || getDay === 6) result += 1;
+  }
+
+  return result;
 }
 
 /**
@@ -267,7 +276,7 @@ function getWorkSchedule(/* period, countWorkDays, countOffDays */) {
 function isLeapYear(date) {
   const year = date.getFullYear();
 
-  return year % 400 === 0 || (year % 4 === 0 && year % 100 !== 0);
+  return !(year % 4 && year % 400);
 }
 
 module.exports = {
