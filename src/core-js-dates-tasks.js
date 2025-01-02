@@ -152,8 +152,10 @@ function isDateInPeriod(date, period) {
  * '1999-01-05T02:20:00.000Z' => '1/5/1999, 2:20:00 AM'
  * '2010-12-15T22:59:00.000Z' => '12/15/2010, 10:59:00 PM'
  */
-function formatDate(/* date */) {
-  throw new Error('Not implemented');
+function formatDate(date) {
+  const currentDate = new Date(date);
+
+  return currentDate.toLocaleString('en-US', { timeZone: 'UTC' });
 }
 
 /**
@@ -200,8 +202,17 @@ function getWeekNumberByDate(/* date */) {
  * Date(2024, 0, 13) => Date(2024, 8, 13)
  * Date(2023, 1, 1) => Date(2023, 9, 13)
  */
-function getNextFridayThe13th(/* date */) {
-  throw new Error('Not implemented');
+function getNextFridayThe13th(date) {
+  const nowDate = new Date(date);
+  const addMonth = () => nowDate.setMonth(nowDate.getMonth() + 1);
+
+  if (nowDate.getDate() > 13) addMonth();
+
+  nowDate.setDate(13);
+
+  while (nowDate.getDay() !== 5) addMonth();
+
+  return nowDate;
 }
 
 /**
@@ -257,8 +268,10 @@ function getWorkSchedule(/* period, countWorkDays, countOffDays */) {
  * Date(2022, 2, 1) => false
  * Date(2020, 2, 1) => true
  */
-function isLeapYear(/* date */) {
-  throw new Error('Not implemented');
+function isLeapYear(date) {
+  const year = date.getFullYear();
+
+  return year % 400 === 0 || (year % 4 === 0 && year % 100 !== 0);
 }
 
 module.exports = {
